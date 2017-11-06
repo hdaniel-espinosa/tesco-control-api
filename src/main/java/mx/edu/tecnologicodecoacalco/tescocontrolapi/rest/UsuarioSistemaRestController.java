@@ -34,6 +34,32 @@ public class UsuarioSistemaRestController {
 		return respuesta;
 	}
 
+	@RequestMapping(value = "/usuarios-sistema/{idUsuarioSistema}", method = RequestMethod.PUT)
+	public String modificarUsuarioSistema(@PathVariable("idUsuarioSistema") Integer idUsuarioSistema,
+			@RequestBody UsuarioSistema usuarioSistema) {
+		log.debug("inicio");
+		String respuesta = null;
+		UsuarioSistema usuarioSistemaAux = null;
+
+		try {
+			usuarioSistema.setIdUsuarioSistema(idUsuarioSistema);
+
+			usuarioSistemaAux = usuarioSistemaDao.findByIdUsuarioSistema(idUsuarioSistema);
+
+			if (usuarioSistemaAux != null) {
+				usuarioSistemaDao.save(usuarioSistema);
+				respuesta = "Se ha actualizado correctamente el usuario.";
+			} else {
+				respuesta = "No se encontró el usuario.";
+			}
+		} catch (Exception exception) {
+			respuesta = "No se pudo actuzalizar el usuario.";
+			log.error(respuesta, exception);
+		}
+		log.debug("fin");
+		return respuesta;
+	}
+
 	@RequestMapping(value = "/usuarios-sistema/{idUsuarioSistema}", method = RequestMethod.DELETE)
 	public String eliminarUsuarioSistemaPorId(@PathVariable("idUsuarioSistema") Integer idUsuarioSistema) {
 		String respuesta = null;
