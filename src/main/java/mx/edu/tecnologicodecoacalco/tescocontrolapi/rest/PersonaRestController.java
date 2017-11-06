@@ -1,12 +1,12 @@
-package mx.edu.tecnologicodecoacalco.controller;
+package mx.edu.tecnologicodecoacalco.tescocontrolapi.rest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import mx.edu.tecnologicodecoacalco.dto.Persona;
+import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.Persona;
 
 @RestController
-public class PersonaController {
+public class PersonaRestController {
 
 	@RequestMapping("/personas")
 	public Persona recuperarPersona() {
@@ -17,5 +17,4 @@ public class PersonaController {
 		persona.setEdad("22");
 		return persona;
 	}
-
 }

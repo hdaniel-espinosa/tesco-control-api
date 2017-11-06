@@ -1,4 +1,4 @@
-package mx.edu.tecnologicodecoacalco.dto;
+package mx.edu.tecnologicodecoacalco.tescocontrolapi.model;
 
 import java.io.Serializable;
 
