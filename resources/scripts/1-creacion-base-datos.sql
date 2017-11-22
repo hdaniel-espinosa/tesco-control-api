@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS `controlpuertas`;
+
+CREATE DATABASE IF NOT EXISTS `controlpuertas` DEFAULT CHARACTER SET latin1 ;
