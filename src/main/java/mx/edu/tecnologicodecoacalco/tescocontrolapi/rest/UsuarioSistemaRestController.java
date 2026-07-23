@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.UsuarioSistema;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.dao.UsuarioSistemaDao;
 
-@Log4j
+@Slf4j
 @RestController
 @RequestMapping(value = "/tesco-control-api")
 public class UsuarioSistemaRestController {
@@ -64,7 +64,7 @@ public class UsuarioSistemaRestController {
 	public String eliminarUsuarioSistemaPorId(@PathVariable("idUsuarioSistema") Integer idUsuarioSistema) {
 		String respuesta = null;
 		try {
-			usuarioSistemaDao.delete(idUsuarioSistema);
+			usuarioSistemaDao.deleteById(idUsuarioSistema);
 			respuesta = "El usuario se eliminó correctamente";
 		} catch (Exception exception) {
 			respuesta = "No se pudo eliminar el usuario";
@@ -81,7 +81,7 @@ public class UsuarioSistemaRestController {
 			liUsuarioSistemas = usuarioSistemaDao.findAll();
 		} catch (Exception exception) {
 			liUsuarioSistemas = null;
-			log.error(exception);
+			log.error("No se pudo recuperar la lista de usuarios de sistema", exception);
 		}
 		log.debug("fin");
 		return liUsuarioSistemas;
