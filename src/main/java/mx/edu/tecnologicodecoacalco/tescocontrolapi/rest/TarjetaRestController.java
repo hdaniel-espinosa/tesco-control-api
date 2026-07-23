@@ -106,4 +106,9 @@ public class TarjetaRestController {
 		}
 		return respuesta;
 	}
+
+	@RequestMapping(value = "/usuarios/{idUsuario}/tarjetas", method = RequestMethod.GET)
+	public List<String> recuperarTarjetasDeUsuario(@PathVariable("idUsuario") Integer idUsuario) {
+		return usuarioTarjetaDao.findByIdUsuario(idUsuario).stream().map(UsuarioTarjeta::getIdTarjeta).toList();
+	}
 }
