@@ -25,13 +25,17 @@ public class WebSecurityConfig {
 	/**
 	 * El lector NFC del laboratorio y los sensores ambientales son
 	 * dispositivos sin sesión de usuario, así que sus endpoints se dejan
-	 * abiertos; el resto de la API requiere autenticación.
+	 * abiertos. La documentación de Swagger también queda abierta para
+	 * poder consultarla sin credenciales; las llamadas reales que se
+	 * disparen desde "Try it out" sí exigen autenticación, igual que el
+	 * resto de la API.
 	 */
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers(HttpMethod.POST, "/tesco-control-api/acceso/validar").permitAll()
 				.requestMatchers(HttpMethod.POST, "/tesco-control-api/estados-laboratorio").permitAll()
+				.requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
 				.anyRequest().authenticated())
 			.csrf(csrf -> csrf.disable())
 			.httpBasic(Customizer.withDefaults());
