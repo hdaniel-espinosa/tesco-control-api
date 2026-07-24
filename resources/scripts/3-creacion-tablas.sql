@@ -21,7 +21,7 @@ USE `controlpuertas` ;
 -- Table `controlpuertas`.`laboratorio`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `controlpuertas`.`laboratorio` (
-  `id_laboratorio` INT(11) NOT NULL,
+  `id_laboratorio` INT(11) NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) NOT NULL,
   `edificio` VARCHAR(10) NOT NULL,
   `n_lugares` INT(11) NOT NULL,
@@ -34,7 +34,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `controlpuertas`.`estado_laboratorio`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `controlpuertas`.`estado_laboratorio` (
-  `id_estado` INT(11) NOT NULL,
+  `id_estado` INT(11) NOT NULL AUTO_INCREMENT,
   `id_laboratorio` INT(11) NOT NULL,
   `fecha_hora` DATETIME NULL DEFAULT NULL,
   `temperatura` INT(11) NULL DEFAULT NULL,
@@ -55,7 +55,7 @@ COLLATE = utf8_bin;
 -- Table `controlpuertas`.`materia`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `controlpuertas`.`materia` (
-  `id_materia` INT(11) NOT NULL,
+  `id_materia` INT(11) NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) NOT NULL,
   `grupo` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`id_materia`))
@@ -67,7 +67,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `controlpuertas`.`horario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `controlpuertas`.`horario` (
-  `id_horario` INT(11) NOT NULL,
+  `id_horario` INT(11) NOT NULL AUTO_INCREMENT,
   `dia` VARCHAR(20) NOT NULL,
   `hora_inicio` TIME NOT NULL,
   `hora_termino` TIME NOT NULL,
@@ -102,7 +102,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `controlpuertas`.`registro`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `controlpuertas`.`registro` (
-  `id_registro` INT(11) NOT NULL,
+  `id_registro` INT(11) NOT NULL AUTO_INCREMENT,
   `id_tarjeta` VARCHAR(15) NOT NULL,
   `id_laboratorio` INT(11) NOT NULL,
   `fecha_hora` DATETIME NOT NULL,
@@ -124,7 +124,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `controlpuertas`.`usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `controlpuertas`.`usuario` (
-  `id_usuario` INT(11) NOT NULL,
+  `id_usuario` INT(11) NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) NOT NULL,
   `ap_paterno` VARCHAR(50) NOT NULL,
   `ap_materno` VARCHAR(50) NOT NULL,
