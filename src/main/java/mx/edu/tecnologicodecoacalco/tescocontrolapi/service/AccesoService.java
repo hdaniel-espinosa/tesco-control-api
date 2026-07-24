@@ -1,11 +1,8 @@
 package mx.edu.tecnologicodecoacalco.tescocontrolapi.service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.TextStyle;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,6 +23,7 @@ import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.dao.UsuarioDao;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.dao.UsuarioMateriaDao;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.dao.UsuarioTarjetaDao;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.rest.dto.AccesoResponse;
+import mx.edu.tecnologicodecoacalco.tescocontrolapi.util.DiaSemanaUtil;
 
 /**
  * Valida si una tarjeta NFC puede abrir un laboratorio: la tarjeta debe estar
@@ -87,7 +85,7 @@ public class AccesoService {
 			return "El usuario no tiene materias asignadas";
 		}
 
-		String dia = nombreDiaActual(ahora);
+		String dia = DiaSemanaUtil.nombreDia(ahora);
 		LocalTime horaActual = ahora.toLocalTime();
 
 		Optional<Horario> horarioValido = horarioDao
@@ -104,12 +102,6 @@ public class AccesoService {
 		LocalTime inicio = horario.getHoraInicio().minusMinutes(MARGEN_MINUTOS);
 		LocalTime termino = horario.getHoraTermino().plusMinutes(MARGEN_MINUTOS);
 		return !horaActual.isBefore(inicio) && !horaActual.isAfter(termino);
-	}
-
-	private String nombreDiaActual(LocalDateTime ahora) {
-		DayOfWeek diaSemana = ahora.getDayOfWeek();
-		String nombre = diaSemana.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("es"));
-		return nombre.substring(0, 1).toUpperCase(Locale.forLanguageTag("es")) + nombre.substring(1);
 	}
 
 	private void registrarIntento(String idTarjeta, Integer idLaboratorio, LocalDateTime fechaHora, boolean abrio) {

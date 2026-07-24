@@ -1,5 +1,6 @@
 package mx.edu.tecnologicodecoacalco.tescocontrolapi.rest;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.Horario;
+import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.UsuarioMateria;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.dao.HorarioDao;
+import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.dao.UsuarioMateriaDao;
+import mx.edu.tecnologicodecoacalco.tescocontrolapi.rest.dto.HorarioDetalleDto;
+import mx.edu.tecnologicodecoacalco.tescocontrolapi.service.HorarioDetalleService;
 
 @Slf4j
 @RestController
@@ -20,6 +25,8 @@ import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.dao.HorarioDao;
 public class HorarioRestController {
 
 	private final HorarioDao horarioDao;
+	private final UsuarioMateriaDao usuarioMateriaDao;
+	private final HorarioDetalleService horarioDetalleService;
 
 	@RequestMapping(value = "/horarios", method = RequestMethod.POST)
 	public String guardarHorario(@RequestBody Horario horario) {
@@ -80,5 +87,18 @@ public class HorarioRestController {
 	@RequestMapping(value = "/laboratorios/{idLaboratorio}/horarios", method = RequestMethod.GET)
 	public List<Horario> recuperarHorariosDeLaboratorio(@PathVariable("idLaboratorio") Integer idLaboratorio) {
 		return horarioDao.findByIdLaboratorio(idLaboratorio);
+	}
+
+	@RequestMapping(value = "/usuarios/{idUsuario}/horarios", method = RequestMethod.GET)
+	public List<HorarioDetalleDto> recuperarHorariosDeUsuario(@PathVariable("idUsuario") Integer idUsuario) {
+		List<Integer> idsMateria = usuarioMateriaDao.findByIdUsuario(idUsuario).stream()
+				.map(UsuarioMateria::getIdMateria).toList();
+		if (idsMateria.isEmpty()) {
+			return List.of();
+		}
+
+		return horarioDetalleService.aDetalle(horarioDao.findByIdMateriaIn(idsMateria)).stream()
+				.sorted(Comparator.comparing(HorarioDetalleDto::getDia).thenComparing(HorarioDetalleDto::getHoraInicio))
+				.toList();
 	}
 }

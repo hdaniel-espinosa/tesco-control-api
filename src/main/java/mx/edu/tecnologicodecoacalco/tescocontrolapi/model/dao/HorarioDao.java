@@ -18,4 +18,10 @@ public interface HorarioDao extends CrudRepository<Horario, Integer> {
 
 	List<Horario> findByIdLaboratorioAndDiaIgnoreCaseAndIdMateriaIn(Integer idLaboratorio, String dia,
 			List<Integer> idsMateria);
+
+	List<Horario> findByIdLaboratorioAndDiaIgnoreCase(Integer idLaboratorio, String dia);
+
+	List<Horario> findByDiaIgnoreCase(String dia);
+
+	List<Horario> findByIdMateriaIn(List<Integer> idsMateria);
 }

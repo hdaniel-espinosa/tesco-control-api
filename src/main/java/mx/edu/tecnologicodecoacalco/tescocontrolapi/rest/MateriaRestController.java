@@ -1,6 +1,7 @@
 package mx.edu.tecnologicodecoacalco.tescocontrolapi.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.Materia;
+import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.Usuario;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.UsuarioMateria;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.UsuarioMateriaId;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.dao.MateriaDao;
+import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.dao.UsuarioDao;
 import mx.edu.tecnologicodecoacalco.tescocontrolapi.model.dao.UsuarioMateriaDao;
 
 @Slf4j
@@ -24,6 +27,7 @@ public class MateriaRestController {
 
 	private final MateriaDao materiaDao;
 	private final UsuarioMateriaDao usuarioMateriaDao;
+	private final UsuarioDao usuarioDao;
 
 	@RequestMapping(value = "/materias", method = RequestMethod.POST)
 	public String guardarMateria(@RequestBody Materia materia) {
@@ -79,6 +83,12 @@ public class MateriaRestController {
 			log.error("No se pudo recuperar la lista de materias", exception);
 		}
 		return liMaterias;
+	}
+
+	@RequestMapping(value = "/materias/{idMateria}/maestros", method = RequestMethod.GET)
+	public List<Usuario> recuperarMaestrosDeMateria(@PathVariable("idMateria") Integer idMateria) {
+		return usuarioMateriaDao.findByIdMateria(idMateria).stream().map(UsuarioMateria::getIdUsuario)
+				.map(usuarioDao::findById).filter(Optional::isPresent).map(Optional::get).toList();
 	}
 
 	@RequestMapping(value = "/usuarios/{idUsuario}/materias", method = RequestMethod.GET)
