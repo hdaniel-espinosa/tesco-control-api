@@ -25,7 +25,8 @@ public class AccesoRestController {
 
 	@PostMapping("/validar")
 	public ResponseEntity<AccesoResponse> validarAcceso(@RequestBody AccesoRequest request) {
-		AccesoResponse respuesta = accesoService.validarAcceso(request.getIdTarjeta(), request.getIdLaboratorio());
+		AccesoResponse respuesta = accesoService.validarAcceso(request.getIdTarjeta(), request.getIdLaboratorio(),
+				request.getFechaHoraSimulada());
 		HttpStatus status = respuesta.isAcceso() ? HttpStatus.OK : HttpStatus.FORBIDDEN;
 		return ResponseEntity.status(status).body(respuesta);
 	}

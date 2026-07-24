@@ -47,8 +47,8 @@ public class AccesoService {
 	private final HorarioDao horarioDao;
 	private final RegistroDao registroDao;
 
-	public AccesoResponse validarAcceso(String idTarjeta, Integer idLaboratorio) {
-		LocalDateTime ahora = LocalDateTime.now();
+	public AccesoResponse validarAcceso(String idTarjeta, Integer idLaboratorio, LocalDateTime fechaHoraSimulada) {
+		LocalDateTime ahora = fechaHoraSimulada != null ? fechaHoraSimulada : LocalDateTime.now();
 		boolean abrio = false;
 		String mensaje;
 		Usuario usuario = null;
